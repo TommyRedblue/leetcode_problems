@@ -4,46 +4,47 @@ class Solution:
         :type grid: List[List[int]]
         :rtype: int
         """
-        
         verticalMaxes = self.findVerticalMaxes(grid)
-        print(verticalMaxes)
         horizontalMaxes = self.findHorizontalMaxes(grid)
-        print(horizontalMaxes)
         
+        maxIncrease = 0
+        for x, row in enumerate(grid):
+            for y, column in enumerate(grid[0]):
+                minFromMaxLists = min([verticalMaxes[x], horizontalMaxes[y]])
+                increaseAmount = minFromMaxLists - grid[x][y]
+                maxIncrease = maxIncrease + increaseAmount
+        return maxIncrease
+    
     
     def findVerticalMaxes(self, grid):
         
-        y = 0
+        column = 0
         max_list = []
         
-
-        for line in grid:
+        for row in grid:
             currMax = 0 
-            for num in grid[y]:
+            for num in grid[column]:
                 if num > currMax:
                     currMax = num
             max_list.append(currMax)
-            y = y+1
+            column = column+1
         return max_list
         
         
     def findHorizontalMaxes(self, grid):
         
-        x = 0
-        y = 0
         max_list = []
+        currColumn = 0
         
-        for line in grid[x]:
+        for outRow in grid:
             currMax = 0
-            for num in grid[y]:
+            currRow = 0
+            for inRow in grid:
+                num = grid[currRow][currColumn]
                 if num > currMax:
                     currMax = num
-                y = y + 1
+                currRow = currRow + 1
             max_list.append(currMax)
-            x = x + 1
-    
-        
-        return []
-        
-      
-        
+            currColumn = currColumn + 1
+
+        return max_list
